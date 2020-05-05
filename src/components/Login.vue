@@ -1,34 +1,91 @@
 <template>
   <div class="login-container">
-        <h1 v-if="isLogin">Login 👤</h1>
+      <h1 v-if="isLogin">Login 👤</h1>
       <h1 v-else>Register 👤</h1>
       <div class="form-control">
-        <input name="name" placeholder="Username" v-model="name" />
+        <input name="email" placeholder="Email" v-model="email" />
       </div>
       <div class="form-control">
-        <input name="password" placeholder="Password" v-model="password" />
+        <input name="password"
+        type="password" placeholder="Password" v-model="password" />
       </div>
       <div v-if="!isLogin" class="form-control">
-        <input name="confirm-password" placeholder="Confirm Password" v-model="cnfPassword" />
+        <input name="confirm-password"
+        type="password" placeholder="Confirm Password" v-model="cnfPassword" />
       </div>
 
-      <button type="submit">{{ isLogin ? 'Log in 🔒' : 'Register 👤' }} </button>
+      <button type="submit"
+      @click="loginSignUpHandler">{{ isLogin ? 'Log in 🔒' : 'Register 👤' }} </button>
       <div class="navigation-link"
        @click="isLogin = !isLogin"
        >{{ isLogin ? 'Create new account.' : 'Use existing account.' }}
       </div>
+     <v-snackbar
+      v-model="snackbar"
+    >
+      {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+import { HTTP } from '../shared/http-common';
+
 export default {
   data() {
     return {
-      name: 'svinsh',
+      email: '',
       password: '',
       cnfPassword: '',
       isLogin: true,
+      snackbar: false,
+      text: 'Hello, I\'m a snackbar',
     };
+  },
+  methods: {
+    loginSignUpHandler() {
+      if (this.isLogin) {
+        HTTP.post('user/login', {
+          email: this.email,
+          password: this.password,
+        }).then((res) => {
+          const resData = res.data;
+          this.text = resData.message;
+          this.snackbar = true;
+          console.log(resData);
+        }).catch((res) => {
+          const resData = res.response;
+          if (resData.status === 401) {
+            this.text = 'invalid email or password';
+            this.snackbar = true;
+          }
+          console.log('error', resData);
+        });
+        return;
+      }
+      if (this.password === this.cnfPassword && !this.isLogin) {
+        HTTP.post('user/create', {
+          email: this.email,
+          password: this.password,
+        }).then((res) => {
+          console.log(res);
+        }).catch((res) => {
+          console.log('error', res);
+        });
+      } else {
+        this.text = 'password in both fields are not same';
+        this.snackbar = true;
+      }
+      this.text = 'Please fill all the required fields';
+      this.snackbar = true;
+    },
   },
 };
 </script>

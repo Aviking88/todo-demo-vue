@@ -31,6 +31,7 @@
 <script>
 import RadialProgressBar from 'vue-radial-progress';
 import TodoItem from '../components/TodoItem.vue';
+import { HTTP } from '../shared/http-common';
 
 export default {
   data() {
@@ -83,6 +84,11 @@ export default {
   components: {
     todoItem: TodoItem,
     RadialProgressBar,
+  },
+  created() {
+    HTTP.get('user').then((res) => {
+      console.log(res);
+    });
   },
 };
 </script>
