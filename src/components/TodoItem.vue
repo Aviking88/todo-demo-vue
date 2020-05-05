@@ -4,7 +4,10 @@
       <checkbox v-model="data.completed" ></checkbox>
     </div>
     <div class="todo-msg-area">
-      <p @click="onClickOverMessage" class="msg">{{data.title}}</p>
+      <p @click="onClickOverMessage" :class="{
+        msg: true,
+        completed:data.completed
+      }">{{data.title}}</p>
       <div class="close" @click="onCloseClick">❌</div>
     </div>
   </div>
@@ -65,6 +68,10 @@ export default {
       padding-right: 30px;
       padding-left: 10px;
       text-align: left;
+    }
+    .completed {
+          text-decoration: line-through;
+          opacity: .6;
     }
     .close{
       position: absolute;
