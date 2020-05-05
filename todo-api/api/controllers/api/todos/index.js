@@ -21,9 +21,12 @@ module.exports = {
 
 
   async fn(inputs) {
-    console.log(inputs)
-    const allUsers = await Todos.find({});
-    console.log(allUsers)
+    const allUsers = await Todos.find({
+      where: {
+        userId: inputs.userId,
+        isActive: true,
+      },
+    });
     return allUsers;
   },
 

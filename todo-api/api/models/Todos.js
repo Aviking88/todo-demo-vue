@@ -19,5 +19,9 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true,
+    },
   },
 };

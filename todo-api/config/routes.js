@@ -13,6 +13,7 @@ module.exports.routes = {
   'POST /api/v1/user/create': { action: 'api/user/create' },
   'POST /api/v1/user/login': { action: 'api/user/login' },
   'GET /api/v1/todos': { action: 'api/todos/index' },
+  'PUT /api/v1/todos/delete': { action: 'api/todos/delete' },
   'POST /api/v1/todos/create': { action: 'api/todos/create' },
-
+  'POST /api/v1/todos/update': { action: 'api/todos/update' },
 };

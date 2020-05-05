@@ -10,7 +10,7 @@
         @keyup.enter="pushTodo()"
       />
       <button class="add-btn" :class="{active:todoInput}" @click="pushTodo()">Add</button>
-       <radial-progress-bar
+       <radial-progress-bar v-if="todoList.length > 0"
     :diameter="60"
     :startColor="'#38f28c'"
     :stopColor="'#2196f3'"
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import RadialProgressBar from 'vue-radial-progress';
 import TodoItem from '../components/TodoItem.vue';
 import { HTTP } from '../shared/http-common';
@@ -44,58 +45,61 @@ import { HTTP } from '../shared/http-common';
 export default {
   data() {
     return {
+      userId: null,
       todoInput: '',
-      todoList: [
-        {
-          message: 'My no   first hfghfg tejkds kjsvnksjvndk skdjskdj',
-          completed: true,
-          id: 0,
-        },
-        {
-          message: 'My no   vbfdbf gf fghfghfg tejkds kjsvnksjvndk skdjskdj',
-          completed: false,
-          id: 1,
-        },
-        {
-          message: 'My Thired',
-          completed: true,
-          id: 2,
-        },
-      ],
+      todoList: [],
     };
   },
   computed: {
     completedTodos() {
-      return this.todoList.filter((i) => i.completed).length;
+      return this.todoList.filter((i) => i.isCompleted).length;
     },
 
   },
   methods: {
     removeItem(id) {
-      const index = this.todoList.findIndex((i) => i.id === id);
-      if (index > -1) {
-        this.todoList.splice(index, 1);
-      }
+      HTTP.put('todos/delete', {
+        id,
+      }).then((res) => {
+        this.setSnack(res.data.message);
+        const index = this.todoList.findIndex((i) => i.id === id);
+        if (index > -1) {
+          this.todoList.splice(index, 1);
+        }
+      });
     },
     pushTodo() {
       if (!this.todoInput.trim()) {
         return;
       }
-      this.todoList.unshift({
+      HTTP.post('todos/create', {
         message: this.todoInput,
-        completed: false,
-        id: Math.random(),
+        isCompleted: false,
+        userId: this.userId,
+      }).then((res) => {
+        const resultData = res.data.data;
+        this.todoList.unshift({
+          message: resultData.message,
+          isCompleted: false,
+          id: resultData.id,
+        });
       });
+
       this.todoInput = '';
     },
+    ...mapMutations({
+      setSnack: 'snackbar/setSnack',
+    }),
   },
   components: {
     todoItem: TodoItem,
     RadialProgressBar,
   },
   created() {
-    HTTP.get('user').then((res) => {
-      console.log(res);
+    const userData = this.$store.state.userStore.user;
+    this.userId = userData.id;
+    HTTP.get(`todos?userId=${userData.id}`).then((res) => {
+      this.todoList = res.data;
     });
   },
 };

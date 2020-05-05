@@ -49,7 +49,7 @@ export default {
           this.setSnack(resData.message);
           localStorage.setItem(LOCAL_STORAGE_USER_DATA, JSON.stringify(resData.data));
           this.setUser(resData.data);
-          this.$router.push({ path: 'home' });
+          this.$router.push('Home');
         }).catch((res) => {
           const resData = res.response;
           if (resData.status === 401) {
@@ -67,7 +67,13 @@ export default {
           email: this.email,
           password: this.password,
         }).then((res) => {
-          this.setSnack(res.data.message);
+          const resData = res.data;
+          this.setSnack(resData.message);
+          localStorage.setItem(LOCAL_STORAGE_USER_DATA, JSON.stringify({ id: resData.data.id }));
+          this.setUser(res.data.data);
+          setTimeout(() => {
+            this.$router.push('Home');
+          }, 100);
         }).catch((res) => {
           const resData = res.response;
           this.setSnack(resData.data.message);

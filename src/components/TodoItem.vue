@@ -1,12 +1,12 @@
 <template>
   <div class="todo-item-wrapper">
     <div class="checkbox-area">
-      <checkbox v-model="data.completed" ></checkbox>
+      <checkbox v-model="data.isCompleted" ></checkbox>
     </div>
     <div class="todo-msg-area">
       <p @click="onClickOverMessage" :class="{
         msg: true,
-        completed:data.completed
+        completed:data.isCompleted
       }">{{data.message}}</p>
       <div class="close" @click="onCloseClick">❌</div>
     </div>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import { HTTP } from '../shared/http-common';
 import Checkbox from './Checkbox.vue';
 
 export default {
@@ -23,7 +25,7 @@ export default {
       default() {
         return {
           message: 'My no   vbfdbf gf fghfghfg tejkds kjsvnksjvndk skdjskdj',
-          completed: true,
+          isCompleted: true,
           id: null,
         };
       },
@@ -31,15 +33,22 @@ export default {
   },
   methods: {
     onClickOverMessage() {
-      this.data.completed = !this.data.completed;
+      HTTP.post('todos/update', {
+        message: this.data.message,
+        isCompleted: !this.data.isCompleted,
+        id: this.data.id,
+      }).then((res) => {
+        this.data.isCompleted = !this.data.isCompleted;
+        const resultData = res.data;
+        this.setSnack(resultData.message);
+      });
     },
     onCloseClick() {
       this.$emit('onRemove', this.data.id);
-      console.log('clicked');
     },
-    onCheckChange(val) {
-      console.log(val);
-    },
+    ...mapMutations({
+      setSnack: 'snackbar/setSnack',
+    }),
   },
   components: {
     checkbox: Checkbox,
