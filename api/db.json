@@ -1,0 +1,26 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "lowdb is tested awesome"
+    },
+    {
+      "id": 1,
+      "title": "lowdb is awesome"
+    }
+  ],
+  "user": {
+    "name": "typicode"
+  },
+  "todolists": [],
+  "users": [
+    {
+      "id": 1,
+      "title": "lowdb is awesome"
+    },
+    {
+      "id": 1,
+      "title": "lowdb is awesome"
+    }
+  ]
+}
