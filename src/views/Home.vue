@@ -19,6 +19,12 @@ export default {
       totalSteps: 10,
     };
   },
+  created() {
+    const userData = this.$store.state.userStore.user;
+    if (userData && !userData.id) {
+      this.$router.push('Login');
+    }
+  },
   components: {
     TodoContainer,
   },
@@ -28,11 +34,10 @@ export default {
 .home {
   overflow: hidden;
   .header{
-    color: #2196f3b8;
     text-decoration: solid;
+    text-transform: uppercase;
     padding: 24px;
-    border-bottom: 2px solid;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
   TodoContainer {
     height: calc(100vh - 120px);

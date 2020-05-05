@@ -28,6 +28,10 @@ module.exports = {
       statusCode: 409,
       description: 'firstname, lastname, email and password is required.',
     },
+    alreadyExist: {
+      statusCode: 400,
+      description: 'User already exist',
+    },
     redirect: {
       responseType: 'redirect',
     },
@@ -40,8 +44,8 @@ module.exports = {
       //   password: await sails.helpers.passwords.hashPassword(inputs.password),
       password: inputs.password,
     })
-      .intercept('E_UNIQUE', (err) => exits.invalid({
-        message: 'invalid',
+      .intercept('E_UNIQUE', (err) => exits.alreadyExist({
+        message: 'User already exists',
         err,
       }))
       .fetch();
@@ -51,10 +55,10 @@ module.exports = {
         message: 'invalid',
       });
     }
-
+    delete userRecord.password;
     return exits.success({
       message: 'User has been created successfully.',
-      data: userRecord,
+      data: { email: userRecord.email, id: userRecord.id },
     });
   },
 

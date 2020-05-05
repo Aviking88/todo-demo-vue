@@ -46,7 +46,7 @@ module.exports = {
     if (userRecord[0] && userRecord[0].password === inputs.password) {
       return exits.success({
         message: 'User has been logged in successfully.',
-        data: userRecord[0],
+        data: { id: userRecord[0].id },
       });
     }
     return exits.invalid({

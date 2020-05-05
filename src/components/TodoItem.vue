@@ -7,7 +7,7 @@
       <p @click="onClickOverMessage" :class="{
         msg: true,
         completed:data.completed
-      }">{{data.title}}</p>
+      }">{{data.message}}</p>
       <div class="close" @click="onCloseClick">❌</div>
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
       type: Object,
       default() {
         return {
-          title: 'My no   vbfdbf gf fghfghfg tejkds kjsvnksjvndk skdjskdj',
+          message: 'My no   vbfdbf gf fghfghfg tejkds kjsvnksjvndk skdjskdj',
           completed: true,
           id: null,
         };
@@ -55,6 +55,7 @@ export default {
   border-bottom: 1px solid #ededed;
   text-align: start;
   padding: 18px;
+  background: #fff;
   cursor: pointer;
   .todo-msg-area{
     position: relative;

@@ -20,10 +20,10 @@ module.exports = {
   },
 
 
-  async fn(inputs, exits) {
-    const allUsers = await Todos.find({
-      where: { userId: inputs.userId },
-    });
+  async fn(inputs) {
+    console.log(inputs)
+    const allUsers = await Todos.find({});
+    console.log(allUsers)
     return allUsers;
   },
 

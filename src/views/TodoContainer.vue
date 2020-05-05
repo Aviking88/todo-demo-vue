@@ -47,17 +47,17 @@ export default {
       todoInput: '',
       todoList: [
         {
-          title: 'My no   first hfghfg tejkds kjsvnksjvndk skdjskdj',
+          message: 'My no   first hfghfg tejkds kjsvnksjvndk skdjskdj',
           completed: true,
           id: 0,
         },
         {
-          title: 'My no   vbfdbf gf fghfghfg tejkds kjsvnksjvndk skdjskdj',
+          message: 'My no   vbfdbf gf fghfghfg tejkds kjsvnksjvndk skdjskdj',
           completed: false,
           id: 1,
         },
         {
-          title: 'My Thired',
+          message: 'My Thired',
           completed: true,
           id: 2,
         },
@@ -82,7 +82,7 @@ export default {
         return;
       }
       this.todoList.unshift({
-        title: this.todoInput,
+        message: this.todoInput,
         completed: false,
         id: Math.random(),
       });
@@ -109,7 +109,7 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 36px;
-    color: #ccc;
+    color: #7b828b;
   }
   .counter{
     position: relative;
@@ -134,7 +134,7 @@ export default {
   }
   .todo-input {
     display: flex;
-    margin: 5px 20%;
+    margin: 12px 20% 18px;
     .add-btn{
     padding: 5px 12px;
     background: #70b7f6;
@@ -155,6 +155,7 @@ export default {
   .new-todo {
     padding: 16px 16px 16px 60px;
     border: none;
+    border-radius: 6px;
     background: rgba(0, 0, 0, 0.003);
     box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
   }
@@ -170,12 +171,10 @@ export default {
     border: 0;
     color: inherit;
     padding: 6px;
-    border: 1px solid #ccc;
-    box-shadow: inset 0 -1px 5px 0 #ccc;
+    background: #fff;
     border-radius: 5px;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   .todo-lists {
     display: flex;

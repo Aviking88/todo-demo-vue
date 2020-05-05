@@ -36,8 +36,7 @@ module.exports = {
       userId: inputs.userId,
       isCompleted: inputs.isCompleted,
       message: inputs.message,
-    });
-
+    }).fetch();
     if (!userRecord) {
       return exits.invalid({
         message: 'userId, isCompleted and message is required.',

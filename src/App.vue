@@ -1,12 +1,24 @@
 <template>
   <div id="app">
+    <Snackbar />
     <router-view/>
   </div>
 </template>
+<script>
+
+import Snackbar from './components/Snackbar.vue';
+
+export default {
+  components: {
+    Snackbar,
+  },
+};
+</script>
 
 <style lang="scss">
 body{
   overflow: hidden;
+  background: #e9ecef;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

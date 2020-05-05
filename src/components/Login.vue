@@ -20,23 +20,14 @@
        @click="isLogin = !isLogin"
        >{{ isLogin ? 'Create new account.' : 'Use existing account.' }}
       </div>
-     <v-snackbar
-      v-model="snackbar"
-    >
-      {{ text }}
-      <v-btn
-        color="pink"
-        text
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import { HTTP } from '../shared/http-common';
+import { LOCAL_STORAGE_USER_DATA } from '../shared/constant';
+
 
 export default {
   data() {
@@ -45,8 +36,6 @@ export default {
       password: '',
       cnfPassword: '',
       isLogin: true,
-      snackbar: false,
-      text: 'Hello, I\'m a snackbar',
     };
   },
   methods: {
@@ -57,36 +46,46 @@ export default {
           password: this.password,
         }).then((res) => {
           const resData = res.data;
-          this.text = resData.message;
-          this.snackbar = true;
+          this.setSnack(resData.message);
+          localStorage.setItem(LOCAL_STORAGE_USER_DATA, JSON.stringify(resData.data));
+          this.setUser(resData.data);
           this.$router.push({ path: 'home' });
-          console.log(resData);
         }).catch((res) => {
           const resData = res.response;
           if (resData.status === 401) {
-            this.text = 'invalid email or password';
-            this.snackbar = true;
+            this.setSnack('invalid email or password');
           }
-          console.log('error', resData);
         });
         return;
       }
-      if (this.password === this.cnfPassword && !this.isLogin) {
+      if (!this.isLogin) {
+        if (this.password !== this.cnfPassword) {
+          this.setSnack('password in both fields are not same');
+          return;
+        }
         HTTP.post('user/create', {
           email: this.email,
           password: this.password,
         }).then((res) => {
-          console.log(res);
+          this.setSnack(res.data.message);
         }).catch((res) => {
-          console.log('error', res);
+          const resData = res.response;
+          this.setSnack(resData.data.message);
         });
-      } else {
-        this.text = 'password in both fields are not same';
-        this.snackbar = true;
+        return;
       }
-      this.text = 'Please fill all the required fields';
-      this.snackbar = true;
+      this.setSnack('Please fill all the required fields');
     },
+    ...mapMutations({
+      setSnack: 'snackbar/setSnack',
+      setUser: 'userData/setuser',
+    }),
+  },
+  created() {
+    const userData = this.$store.state.userStore.user;
+    if (userData && userData.id) {
+      this.$router.push('Home');
+    }
   },
 };
 </script>
@@ -121,7 +120,7 @@ export default {
 }
 button {
   margin-top: 20px;
-  background: black;
+  background: #0086fd;
   color: white;
   padding: 10px 0;
   width: 200px;
@@ -143,6 +142,6 @@ h1 {
     display: block;
     margin-top: 30px;
     cursor: pointer;
-    color: #42b983;
+    color: #0086fd;
 }
 </style>
