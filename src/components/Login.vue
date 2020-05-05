@@ -59,6 +59,7 @@ export default {
           const resData = res.data;
           this.text = resData.message;
           this.snackbar = true;
+          this.$router.push({ path: 'home' });
           console.log(resData);
         }).catch((res) => {
           const resData = res.response;

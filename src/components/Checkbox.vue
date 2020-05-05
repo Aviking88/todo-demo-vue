@@ -1,5 +1,5 @@
 <template>
-  <label class="container">
+  <label class="check-box-container">
     <input type="checkbox" v-bind:checked="checked"
       v-on:change="$emit('change', $event.target.checked)" />
     <span class="checkmark"></span>
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container {
+.check-box-container {
   display: initial;
   position: relative;
   padding-left: 35px;
@@ -50,8 +50,8 @@ export default {
     &:after {
       left: 11px;
       top: 7px;
-      width: 6px;
-      height: 10px;
+      width: 9px;
+      height: 14px;
       border: solid white;
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);
@@ -68,17 +68,17 @@ export default {
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.check-box-container:hover input ~ .checkmark {
   background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.check-box-container input:checked ~ .checkmark {
   background-color: #2196f3;
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.check-box-container input:checked ~ .checkmark:after {
   display: block;
 }
 </style>

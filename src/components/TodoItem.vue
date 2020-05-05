@@ -54,6 +54,7 @@ export default {
   font-size: 24px;
   border-bottom: 1px solid #ededed;
   text-align: start;
+  padding: 18px;
   cursor: pointer;
   .todo-msg-area{
     position: relative;

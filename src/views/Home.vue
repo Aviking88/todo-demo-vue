@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="header">
-      Header
-    </div>
+    <h1 class="header">
+      Todo App
+    </h1>
     <TodoContainer></TodoContainer>
   </div>
 </template>
@@ -28,7 +28,11 @@ export default {
 .home {
   overflow: hidden;
   .header{
-   // height: 90px;
+    color: #2196f3b8;
+    text-decoration: solid;
+    padding: 24px;
+    border-bottom: 2px solid;
+    margin-bottom: 20px;
   }
   TodoContainer {
     height: calc(100vh - 120px);
